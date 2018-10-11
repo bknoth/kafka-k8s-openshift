@@ -43,6 +43,8 @@ RUN set -x \
     && adduser -h $KAFKA_HOME -g "Kafka user" -s /sbin/nologin -D -G $KAFKA_GROUP -G sudo $KAFKA_USER \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     && chown -R $KAFKA_USER:$KAFKA_GROUP $KAFKA_HOME \
+    && chgrp -R 0 $KAFKA_HOME; \
+    && chmod -R g+rwX $KAFKA_HOME; \
     && ln -s $KAFKA_HOME/bin/kafka_*.sh /usr/bin
 
 USER $KAFKA_USER
