@@ -54,21 +54,21 @@ parameters:
     The minimum age of a log file to be eligible for deletion.
   value: "40"
 - name: SERVER_ADVERTISED_LISTENERS
-  description: >
-    The advertised listeners to use
+  description: The advertised listeners to use
   value: "INTERNAL://localhost:9092,EXTERNAL://kafka.openshift-host.local:30092"
+  required: true
 - name: SERVER_LISTENER_SECURITY_PROTOCOL_MAP
-  description: >
-    The listener security group maps to use
+  description: The listener security group maps to use
   value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL"
+  required: true
 - name: SERVER_LISTENERS
-  description: >
-    The listeners to use
+  description: The listeners to use
   value: "INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:30092"
+  required: true
 - name: SERVER_INTER_BROKER_LISTENER_NAME
-  description: >
-    The inter broker listener to use
+  description: The inter broker listener to use
   value: "INTERNAL"
+  required: true
 - name: KAFKA_ZK_LOCAL
   description: >
     Use local zookeeper (*KAFKA_ZK_LOCAL).
