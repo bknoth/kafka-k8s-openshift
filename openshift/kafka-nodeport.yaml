@@ -185,6 +185,15 @@ objects:
             value: ${SERVER_ZOOKEEPER_CONNECT}
           - name:  SERVER_zookeeper_connection_timeout_ms
             value: ${SERVER_ZOOKEEPER_CONNECT_TIMEOUT}
+          - name: SERVER_advertised_listeners
+            value: ${SERVER_ADVERTISED_LISTENERS}
+          - name: SERVER_listener_security_protocol_map
+            value: ${SERVER_LISTENER_SECURITY_PROTOCOL_MAP}
+          - name: SERVER_listeners
+            value: ${SERVER_LISTENERS}
+          - name: SERVER_inter_broker_listener_name
+            value: ${SERVER_INTER_BROKER_LISTENER_NAME}
+
           livenessProbe:
             exec:
               command:
