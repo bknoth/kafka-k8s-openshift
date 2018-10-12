@@ -16,9 +16,9 @@ ENV KAFKA_HOME=${KAFKA_HOME} \
     SERVER_port=9092
 
 # Required packages
-RUN set -x \
-    && apk add --update --no-cache \
-       bash sudo tar gnupg openssl ca-certificates
+RUN set -ex; \
+    apk add --update --no-cache \
+      bash sudo tar wget curl gnupg openssl ca-certificates
 
 # Download kafka distribution under KAFKA_HOME directory
 ADD kafka_download.sh /tmp/
@@ -31,21 +31,20 @@ RUN /tmp/kafka_download.sh
 
 RUN set -x \
     && rm -rf /tmp/kafka_download.sh \
-    && apk del gnupg
+    && apk del wget gnupg
 
 # Add custom scripts and configure user
 ADD kafka_env.sh kafka_setup.sh kafka_server.sh kafka_server_status.sh $KAFKA_HOME/bin/
 
-RUN set -x \
-    && chmod a+x $KAFKA_HOME/bin/kafka_*.sh \
-    && addgroup $KAFKA_GROUP \
-    && addgroup sudo \
-    && adduser -h $KAFKA_HOME -g "Kafka user" -s /sbin/nologin -D -G $KAFKA_GROUP -G sudo $KAFKA_USER \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && chown -R $KAFKA_USER:$KAFKA_GROUP $KAFKA_HOME \
-    && chgrp -R 0 $KAFKA_HOME; \
-    && chmod -R g+rwX $KAFKA_HOME; \
-    && ln -s $KAFKA_HOME/bin/kafka_*.sh /usr/bin
+RUN set -ex; \
+    chmod a+x $KAFKA_HOME/bin/kafka_*.sh; \
+    addgroup $KAFKA_GROUP; \
+    addgroup sudo; \
+    adduser -h $KAFKA_HOME -g "Kafka user" -s /sbin/nologin -D -G $KAFKA_GROUP -G sudo $KAFKA_USER; \
+    chown -R $KAFKA_USER:$KAFKA_GROUP $KAFKA_HOME; \
+    chgrp -R 0 $KAFKA_HOME; \
+    chmod -R g+rwX $KAFKA_HOME; \
+    ln -s $KAFKA_HOME/bin/kafka_*.sh /usr/bin
 
 USER $KAFKA_USER
 WORKDIR $KAFKA_HOME
